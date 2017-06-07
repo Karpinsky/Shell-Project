@@ -6,7 +6,7 @@
 
 #include "shell_command.h"
 
-class MakeDirectoryCommand : public ShellCommand, public ICommand
+class MakeDirectoryCommand : public ShellCommand
 {
 public:
 	MakeDirectoryCommand(std::string commandKeyword);
@@ -15,7 +15,7 @@ public:
 	void DisplayShortCommandDescription();
 	void InitializeAdditionalCommandTriggers();
 
-	bool Execute(std::vector<std::string> options);
+	bool Execute(std::vector<std::string>& options);
 };
 
 #endif // !SHELLPROJECT_MAKE_DIRECTORY_COMMAND_H_

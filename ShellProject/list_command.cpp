@@ -22,7 +22,7 @@ void ListCommand::InitializeAdditionalCommandTriggers()
 {
 }
 
-bool ListCommand::Execute(std::vector<std::string> options)
+bool ListCommand::Execute(std::vector<std::string>& options)
 {
 	// List items in directory
 	std::cout << "Hello !" << std::endl;

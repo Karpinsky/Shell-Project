@@ -8,7 +8,7 @@
 // Forward declared dependencies
 class Shell;
 
-class ExitCommand : public ShellCommand, public ICommand
+class ExitCommand : public ShellCommand
 {
 public:
 	ExitCommand(std::string commandKeyword, Shell* shell);
@@ -17,7 +17,7 @@ public:
 	void DisplayShortCommandDescription();
 	void InitializeAdditionalCommandTriggers();
 
-	bool Execute(std::vector<std::string> options);
+	bool Execute(std::vector<std::string>& options);
 
 private:
 	Shell* shell_;

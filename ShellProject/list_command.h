@@ -2,7 +2,7 @@
 
 #include "shell_command.h"
 
-class ListCommand : public ShellCommand, public ICommand
+class ListCommand : public ShellCommand
 {
 public:
 	ListCommand(std::string commandKeyword);
@@ -11,6 +11,6 @@ public:
 	void DisplayShortCommandDescription();
 	void InitializeAdditionalCommandTriggers();
 
-	bool Execute(std::vector<std::string> options);
+	bool Execute(std::vector<std::string>& options);
 };
 

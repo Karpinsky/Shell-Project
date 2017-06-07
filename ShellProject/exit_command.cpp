@@ -20,7 +20,7 @@ void ExitCommand::InitializeAdditionalCommandTriggers()
 {
 }
 
-bool ExitCommand::Execute(std::vector<std::string> options)
+bool ExitCommand::Execute(std::vector<std::string>& options)
 {
 	this->shell_->Stop();
 	return true;

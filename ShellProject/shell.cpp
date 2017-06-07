@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include "shell.h"
-#include "string_utility.h"
 
 using namespace std;
 
@@ -16,12 +13,13 @@ Shell::Shell()
 
 Shell::Shell(bfs::path& startupPath) : Shell()
 {
+	bfs::current_path(startupPath);
 	this->current_path_ = startupPath;
 }
 
 Shell::~Shell()
 {
-	for (auto it = this->commands_.begin(); it != this->commands_.end(); ++it)
+	for (auto it = this->inner_commands_.begin(); it != this->inner_commands_.end(); ++it)
 	{
 		delete it->second;
 	}
@@ -46,9 +44,26 @@ void Shell::Run()
 		std::string delimiter = " ";
 		std::vector<std::string> additional_options = StringUtility::Split(std::string(user_command_input), delimiter);
 
-		if (this->commands_.find(user_command_input) != this->commands_.end())
+		if (this->inner_commands_.find(additional_options[0]) != this->inner_commands_.end())
 		{
-			this->commands_[user_command_input]->Execute(additional_options);
+			this->inner_commands_[additional_options[0]]->Execute(additional_options);
+		}
+		else if (this->outer_commands_.find(additional_options[0]) != this->outer_commands_.end())
+		{
+#ifdef linux
+			pid_t pid = fork();
+			if (!pid)
+			{
+				this->outer_commands_[additional_options[0]]->Execute(additional_options);
+				break;
+			}
+			else if (pid == -1)
+			{
+				perror("Could not fork the process");
+			}
+#else
+			this->outer_commands_[additional_options[0]]->Execute(additional_options);
+#endif
 		}
 		else
 		{
@@ -69,22 +84,26 @@ bool Shell::IsRunning()
 
 void Shell::SetPath(bfs::path& newPath)
 {
+	bfs::current_path(newPath);
 	this->current_path_ = newPath;
 }
 
 void Shell::InitializeCommands()
 {
 	std::string exit_command_keyword = "exit";
-	this->commands_.insert({ exit_command_keyword, new ExitCommand(exit_command_keyword, this) });
+	this->inner_commands_.insert({ exit_command_keyword, new ExitCommand(exit_command_keyword, this) });
+
+	std::string change_directory_command_keyword = "cd";
+	this->inner_commands_.insert({ change_directory_command_keyword, new ChangeDirectoryCommand(change_directory_command_keyword) });
 
 	std::string make_directory_command_keyword = "mkdir";
-	this->commands_.insert({ make_directory_command_keyword, new MakeDirectoryCommand(make_directory_command_keyword) });
+	this->outer_commands_.insert({ make_directory_command_keyword, new MakeDirectoryCommand(make_directory_command_keyword) });
 
 	std::string list_command_keyword = "ls";
-	this->commands_.insert({ list_command_keyword, new ListCommand(list_command_keyword) });
+	this->outer_commands_.insert({ list_command_keyword, new ListCommand(list_command_keyword) });
 
 	// std::string print_working_directory_command_keyword = "pwd";
-	// this->commands_.insert({ print_working_directory_command_keyword, new PrintWorkingDirectoryCommand(print_working_directory_command_keyword) });
+	// this->inner_commands.insert({ print_working_directory_command_keyword, new PrintWorkingDirectoryCommand(print_working_directory_command_keyword) });
 
 	// Your try
 

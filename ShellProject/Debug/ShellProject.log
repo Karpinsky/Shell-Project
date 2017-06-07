@@ -1,6 +1,7 @@
-﻿  string_utility.cpp
+﻿  shell_command.cpp
   shell.cpp
   make_directory_command.cpp
+  change_directory_command.cpp
   Generating Code...
   ShellProject.vcxproj -> F:\Visual Studio Projects\Shell Project\Shell-Project\Debug\ShellProject.exe
   ShellProject.vcxproj -> F:\Visual Studio Projects\Shell Project\Shell-Project\Debug\ShellProject.pdb (Partial PDB)
