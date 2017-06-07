@@ -1,10 +1,10 @@
-#include "change_directory_command.h"
+#include "shell.h"
 
 
 
-ChangeDirectoryCommand::ChangeDirectoryCommand(std::string commandKeyword) : ShellCommand(commandKeyword)
+ChangeDirectoryCommand::ChangeDirectoryCommand(std::string commandKeyword, Shell* shell) : ShellCommand(commandKeyword)
 {
-
+	this->shell_ = shell;
 }
 
 

@@ -61,11 +61,16 @@ void Shell::Run()
 			{
 				perror("Could not fork the process");
 			}
+			else
+			{
+				int status;
+				while (wait(&status) > 0); // Wait for child process
+			}
 #else
 			this->outer_commands_[additional_options[0]]->Execute(additional_options);
 #endif
 		}
-		else
+		else if (additional_options[0] != "")
 		{
 			cout << "Unrecognised command. Notice me Senpai!" << endl;
 		}
@@ -94,7 +99,7 @@ void Shell::InitializeCommands()
 	this->inner_commands_.insert({ exit_command_keyword, new ExitCommand(exit_command_keyword, this) });
 
 	std::string change_directory_command_keyword = "cd";
-	this->inner_commands_.insert({ change_directory_command_keyword, new ChangeDirectoryCommand(change_directory_command_keyword) });
+	this->inner_commands_.insert({ change_directory_command_keyword, new ChangeDirectoryCommand(change_directory_command_keyword, this) });
 
 	std::string make_directory_command_keyword = "mkdir";
 	this->outer_commands_.insert({ make_directory_command_keyword, new MakeDirectoryCommand(make_directory_command_keyword) });

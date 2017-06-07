@@ -8,7 +8,6 @@
 #endif
 
 #include <unordered_map>
-#include <string>
 #include <boost/filesystem.hpp>
 
 #include "interface_command.h"

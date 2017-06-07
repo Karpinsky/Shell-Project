@@ -39,11 +39,11 @@ bool MakeDirectoryCommand::Execute(std::vector<std::string>& options)
 		return true;
 	}
 
-	std::string directory_name;
+	std::string directory_name = options[1];
 
-	for (std::vector<std::string>::iterator it = options.begin() + 1; it != options.end(); ++it)
+	for (std::vector<std::string>::iterator it = options.begin() + 2; it != options.end(); ++it)
 	{
-		directory_name.append(*it);
+		directory_name.append(" " + *it);
 	}
 
 	if (bfs::create_directory(bfs::path { directory_name }))
