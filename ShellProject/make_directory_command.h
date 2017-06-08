@@ -9,13 +9,13 @@
 class MakeDirectoryCommand : public ShellCommand
 {
 public:
-	MakeDirectoryCommand(std::string commandKeyword);
+	MakeDirectoryCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options);
 	virtual ~MakeDirectoryCommand();
 
 	void DisplayShortCommandDescription();
 	void InitializeAdditionalCommandTriggers();
 
-	bool Execute(std::vector<std::string>& options);
+	CommandExecutionResult Execute(std::vector<std::string>& options);
 };
 
 #endif // !SHELLPROJECT_MAKE_DIRECTORY_COMMAND_H_

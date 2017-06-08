@@ -18,11 +18,12 @@ namespace bfs = boost::filesystem;
 class ShellCommand : public ICommand
 {
 public:
-	ShellCommand(std::string commandKeyword);
+	ShellCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options);
 	virtual ~ShellCommand();
 
 	virtual void DisplayShortCommandDescription() = 0;
-	
+
+	virtual CommandExecutionResult Execute(std::vector<std::string>& options);
 
 	std::string GetCommandKeyword();
 
@@ -31,7 +32,7 @@ protected:
 	std::unordered_map<std::string, int> additional_command_triggers_;
 	std::unordered_map<std::string, Action<ShellCommand>*> optional_action_commands_;
 
-	const size_t minimal_number_of_options = 2;
+	size_t conditional_minimal_number_of_options_;
 
 	virtual void InitializeAdditionalCommandTriggers() = 0;
 };

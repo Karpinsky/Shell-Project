@@ -5,12 +5,12 @@
 class ListCommand : public ShellCommand
 {
 public:
-	ListCommand(std::string commandKeyword);
+	ListCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options);
 	virtual ~ListCommand();
 
 	void DisplayShortCommandDescription();
 	void InitializeAdditionalCommandTriggers();
 
-	bool Execute(std::vector<std::string>& options);
+	CommandExecutionResult Execute(std::vector<std::string>& options);
 };
 

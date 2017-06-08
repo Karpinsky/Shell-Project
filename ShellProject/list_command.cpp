@@ -2,7 +2,7 @@
 
 
 
-ListCommand::ListCommand(std::string commandKeyword) : ShellCommand(commandKeyword)
+ListCommand::ListCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options) : ShellCommand(commandKeyword, conditional_minimal_number_of_options)
 {
 
 }
@@ -22,9 +22,7 @@ void ListCommand::InitializeAdditionalCommandTriggers()
 {
 }
 
-bool ListCommand::Execute(std::vector<std::string>& options)
+CommandExecutionResult ListCommand::Execute(std::vector<std::string>& options)
 {
-	// List items in directory
-	std::cout << "Hello !" << std::endl;
-	return false;
+	return CommandExecutionResult::EXEC_FAIL;
 }

@@ -11,13 +11,13 @@ class Shell;
 class ExitCommand : public ShellCommand
 {
 public:
-	ExitCommand(std::string commandKeyword, Shell* shell);
+	ExitCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options, Shell* shell);
 	virtual ~ExitCommand();
 
 	void DisplayShortCommandDescription();
 	void InitializeAdditionalCommandTriggers();
 
-	bool Execute(std::vector<std::string>& options);
+	CommandExecutionResult Execute(std::vector<std::string>& options);
 
 private:
 	Shell* shell_;

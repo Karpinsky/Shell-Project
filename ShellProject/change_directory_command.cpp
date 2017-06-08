@@ -2,7 +2,7 @@
 
 
 
-ChangeDirectoryCommand::ChangeDirectoryCommand(std::string commandKeyword, Shell* shell) : ShellCommand(commandKeyword)
+ChangeDirectoryCommand::ChangeDirectoryCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options, Shell* shell) : ShellCommand(commandKeyword, conditional_minimal_number_of_options)
 {
 	this->shell_ = shell;
 }
@@ -20,7 +20,8 @@ void ChangeDirectoryCommand::InitializeAdditionalCommandTriggers()
 {
 }
 
-bool ChangeDirectoryCommand::Execute(std::vector<std::string>& options)
+CommandExecutionResult ChangeDirectoryCommand::Execute(std::vector<std::string>& options)
 {
-	return false;
+
+	return CommandExecutionResult::EXEC_FAIL;
 }

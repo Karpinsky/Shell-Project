@@ -18,7 +18,7 @@ public:
 	~Shell();
 
 	void Run();
-	void Stop();
+	void Stop(int exitCode = 1);
 	bool IsRunning();
 
 	void SetPath(bfs::path& newPath);

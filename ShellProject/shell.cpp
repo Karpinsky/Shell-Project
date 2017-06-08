@@ -77,9 +77,10 @@ void Shell::Run()
 	}
 }
 
-void Shell::Stop() 
+void Shell::Stop(int exitCode)
 {
 	this->is_running_ = false;
+	std::cout << "Shell execution stopped with code: " << exitCode << std::endl;
 }
 
 bool Shell::IsRunning()
@@ -96,16 +97,16 @@ void Shell::SetPath(bfs::path& newPath)
 void Shell::InitializeCommands()
 {
 	std::string exit_command_keyword = "exit";
-	this->inner_commands_.insert({ exit_command_keyword, new ExitCommand(exit_command_keyword, this) });
+	this->inner_commands_.insert({ exit_command_keyword, new ExitCommand(exit_command_keyword, 2, this) });
 
 	std::string change_directory_command_keyword = "cd";
-	this->inner_commands_.insert({ change_directory_command_keyword, new ChangeDirectoryCommand(change_directory_command_keyword, this) });
+	this->inner_commands_.insert({ change_directory_command_keyword, new ChangeDirectoryCommand(change_directory_command_keyword, 2, this) });
 
 	std::string make_directory_command_keyword = "mkdir";
-	this->outer_commands_.insert({ make_directory_command_keyword, new MakeDirectoryCommand(make_directory_command_keyword) });
+	this->outer_commands_.insert({ make_directory_command_keyword, new MakeDirectoryCommand(make_directory_command_keyword, 2) });
 
 	std::string list_command_keyword = "ls";
-	this->outer_commands_.insert({ list_command_keyword, new ListCommand(list_command_keyword) });
+	this->outer_commands_.insert({ list_command_keyword, new ListCommand(list_command_keyword, 2) });
 
 	// std::string print_working_directory_command_keyword = "pwd";
 	// this->inner_commands.insert({ print_working_directory_command_keyword, new PrintWorkingDirectoryCommand(print_working_directory_command_keyword) });
