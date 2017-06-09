@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include "event.h"
 
 template<class Container>
 class Action
@@ -13,14 +14,14 @@ public:
 	Action();
 	virtual ~Action();
 
-	void AddAction(void_delegate&& action);
+	void AddAction(Container* invoker, void_delegate action);
 	void Invoke();
 
-	Action<Container> operator+=(void_delegate* action);
+	Action<Container> operator+=(Event<Container>* actionEvent);
 	Action<Container> operator()();
 
 protected:
-	std::vector<void_delegate> invokables_;
+	std::vector<Event<Container>*> events_;
 };
 
 template<class Container>
@@ -31,34 +32,37 @@ inline Action<Container>::Action()
 template<class Container>
 inline Action<Container>::~Action()
 {
+	for (Event<Container>* actionEvent : this->events_)
+	{
+		delete actionEvent;
+	}
 }
 
 template<class Container>
-inline void Action<Container>::AddAction(void_delegate&& action)
+inline void Action<Container>::AddAction(Container* invoker, void_delegate action)
 {
-	this->invokables_.push_back(action);
+	this->events_.push_back(new Event<Container>(invoker, action));
 }
 
 template<class Container>
 inline void Action<Container>::Invoke()
 {
-	for (void_delegate& invokable : this->invokables_)
+	for (Event<Container>* actionEvent : this->events_)
 	{
-		invokable;
+		((actionEvent->invoker_)->*(actionEvent->invokable_))();
 	}
 }
 
 template<class Container>
-inline Action<Container> Action<Container>::operator+=(void_delegate* action)
+inline Action<Container> Action<Container>::operator+=(Event<Container>* actionEvent)
 {
-	this->invokables_.push_back(action);
+	this->events_.push_back(actionEvent);
+	return *this;
 }
 
 template<class Container>
 inline Action<Container> Action<Container>::operator()()
 {
-	for (auto* invokable : this->invokables_)
-	{
-		(*this).*invokable();
-	}
+	this->Invoke();
+	return *this;
 }

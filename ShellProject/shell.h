@@ -21,7 +21,8 @@ public:
 	void Stop(int exitCode = 1);
 	bool IsRunning();
 
-	void SetPath(bfs::path& newPath);
+	bfs::path GetPath();
+	void SetPath(bfs::path newPath);
 
 private:
 	bool is_running_;

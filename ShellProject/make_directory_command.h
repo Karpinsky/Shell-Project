@@ -6,14 +6,15 @@
 
 #include "shell_command.h"
 
-class MakeDirectoryCommand : public ShellCommand
+class MakeDirectoryCommand : public ShellCommand<MakeDirectoryCommand>
 {
 public:
 	MakeDirectoryCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options);
 	virtual ~MakeDirectoryCommand();
 
 	void DisplayShortCommandDescription();
-	void InitializeAdditionalCommandTriggers();
+	virtual void InitializeAdditionalCommandTriggers();
+	virtual void InitializeOptionalActionCommands(MakeDirectoryCommand* child);
 
 	CommandExecutionResult Execute(std::vector<std::string>& options);
 };

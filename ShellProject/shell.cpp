@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "command_factory.h"
 
 using namespace std;
 
@@ -19,7 +20,12 @@ Shell::Shell(bfs::path& startupPath) : Shell()
 
 Shell::~Shell()
 {
-	for (auto it = this->inner_commands_.begin(); it != this->inner_commands_.end(); ++it)
+	for (std::unordered_map<std::string, ICommand*>::iterator it = this->inner_commands_.begin(); it != this->inner_commands_.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	for (std::unordered_map<std::string, ICommand*>::iterator it = this->outer_commands_.begin(); it != this->outer_commands_.end(); ++it)
 	{
 		delete it->second;
 	}
@@ -88,7 +94,12 @@ bool Shell::IsRunning()
 	return this->is_running_;
 }
 
-void Shell::SetPath(bfs::path& newPath)
+bfs::path Shell::GetPath()
+{
+	return this->current_path_;
+}
+
+void Shell::SetPath(bfs::path newPath)
 {
 	bfs::current_path(newPath);
 	this->current_path_ = newPath;
@@ -96,17 +107,17 @@ void Shell::SetPath(bfs::path& newPath)
 
 void Shell::InitializeCommands()
 {
-	std::string exit_command_keyword = "exit";
-	this->inner_commands_.insert({ exit_command_keyword, new ExitCommand(exit_command_keyword, 2, this) });
-
 	std::string change_directory_command_keyword = "cd";
-	this->inner_commands_.insert({ change_directory_command_keyword, new ChangeDirectoryCommand(change_directory_command_keyword, 2, this) });
+	this->inner_commands_.insert({ change_directory_command_keyword, CommandFactory::CreateChangeDirectoryCommand(change_directory_command_keyword, 2, this) });
 
-	std::string make_directory_command_keyword = "mkdir";
-	this->outer_commands_.insert({ make_directory_command_keyword, new MakeDirectoryCommand(make_directory_command_keyword, 2) });
+	std::string exit_command_keyword = "exit";
+	this->inner_commands_.insert({ exit_command_keyword, CommandFactory::CreateExitCommand(exit_command_keyword, 2, this) });
 
 	std::string list_command_keyword = "ls";
-	this->outer_commands_.insert({ list_command_keyword, new ListCommand(list_command_keyword, 2) });
+	this->outer_commands_.insert({ list_command_keyword, CommandFactory::CreateListCommand(list_command_keyword, 2) });
+
+	std::string make_directory_command_keyword = "mkdir";
+	this->outer_commands_.insert({ make_directory_command_keyword, CommandFactory::CreateMakeDirectoryCommand(make_directory_command_keyword, 2) });
 
 	// std::string print_working_directory_command_keyword = "pwd";
 	// this->inner_commands.insert({ print_working_directory_command_keyword, new PrintWorkingDirectoryCommand(print_working_directory_command_keyword) });

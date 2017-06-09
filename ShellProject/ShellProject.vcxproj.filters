@@ -45,6 +45,9 @@
     <ClCompile Include="change_directory_command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="command_factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shell.h">
@@ -78,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="change_directory_command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="command_factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

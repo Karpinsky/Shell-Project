@@ -115,6 +115,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="change_directory_command.cpp" />
+    <ClCompile Include="command_factory.cpp" />
     <ClCompile Include="exit_command.cpp" />
     <ClCompile Include="list_command.cpp" />
     <ClCompile Include="main.cpp" />
@@ -128,6 +129,8 @@
   <ItemGroup>
     <ClInclude Include="action.h" />
     <ClInclude Include="change_directory_command.h" />
+    <ClInclude Include="command_factory.h" />
+    <ClInclude Include="event.h" />
     <ClInclude Include="exit_command.h" />
     <ClInclude Include="interface_command.h" />
     <ClInclude Include="list_command.h" />

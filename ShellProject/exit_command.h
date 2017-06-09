@@ -8,14 +8,15 @@
 // Forward declared dependencies
 class Shell;
 
-class ExitCommand : public ShellCommand
+class ExitCommand : public ShellCommand<ExitCommand>
 {
 public:
 	ExitCommand(std::string commandKeyword, size_t conditional_minimal_number_of_options, Shell* shell);
 	virtual ~ExitCommand();
 
 	void DisplayShortCommandDescription();
-	void InitializeAdditionalCommandTriggers();
+	virtual void InitializeAdditionalCommandTriggers();
+	virtual void InitializeOptionalActionCommands(ExitCommand* child);
 
 	CommandExecutionResult Execute(std::vector<std::string>& options);
 
